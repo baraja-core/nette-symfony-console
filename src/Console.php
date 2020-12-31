@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Baraja\Console;
 
 
-use Baraja\PackageManager\Helpers;
 use Nette\Application\Application as NetteApplication;
 use Nette\DI\Container;
 use Symfony\Component\Console\Application;
