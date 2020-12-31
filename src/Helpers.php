@@ -14,6 +14,7 @@ final class Helpers
 		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
 	}
 
+
 	/** Render code snippet to Terminal. */
 	public static function terminalRenderCode(string $path, ?int $markLine = null): void
 	{
@@ -43,6 +44,7 @@ final class Helpers
 			echo '----- file -----' . "\n\n";
 		}
 	}
+
 
 	/** Render red block with error message. */
 	public static function terminalRenderError(string $message): void
