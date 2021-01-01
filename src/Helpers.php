@@ -49,10 +49,29 @@ final class Helpers
 	/** Render red block with error message. */
 	public static function terminalRenderError(string $message): void
 	{
+		self::terminalRenderBadge($message, "\033[1;37m\033[41m");
+	}
+
+
+	/** Render green block with message. */
+	public static function terminalRenderSuccess(string $message): void
+	{
+		self::terminalRenderBadge($message, "\033[1;30m\033[42m");
+	}
+
+
+	public static function terminalRenderLabel(string $label): void
+	{
+		echo "\e[33m" . $label . "\033[0m";
+	}
+
+
+	private static function terminalRenderBadge(string $message, string $color): void
+	{
 		if (PHP_SAPI !== 'cli') {
 			throw new \RuntimeException('Terminal: This method is available only in CLI mode.');
 		}
-		echo "\033[1;37m\033[41m" . str_repeat(' ', 100) . "\n";
+		echo "\n" . $color . str_repeat(' ', 100) . "\n";
 
 		foreach (explode("\n", str_replace(["\r\n", "\r"], "\n", $message)) as $line) {
 			while (true) {
@@ -66,7 +85,7 @@ final class Helpers
 			}
 		}
 
-		echo str_repeat(' ', 100) . "\033[0m";
+		echo str_repeat(' ', 100) . "\033[0m" . "\n";
 	}
 
 
