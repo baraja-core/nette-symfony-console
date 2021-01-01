@@ -60,9 +60,9 @@ final class Helpers
 	}
 
 
-	public static function terminalRenderLabel(string $label): void
+	public static function terminalRenderLabel(string $label): string
 	{
-		echo "\e[33m" . $label . "\033[0m";
+		return "\e[33m" . $label . "\033[0m";
 	}
 
 
