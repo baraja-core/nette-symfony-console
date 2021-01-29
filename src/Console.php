@@ -92,7 +92,10 @@ final class Console
 	private function consoleAlreadyHasCalled(): bool
 	{
 		foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $item) {
-			if (isset($item['file']) && substr(str_replace('\\', '/', $item['file']), -31) === 'symfony/console/Application.php') {
+			if (
+				isset($item['file'])
+				&& substr(str_replace('\\', '/', $item['file']), -31) === 'symfony/console/Application.php'
+			) {
 				return true;
 			}
 		}

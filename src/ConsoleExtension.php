@@ -48,7 +48,7 @@ final class ConsoleExtension extends CompilerExtension
 					return true;
 				}),
 			'helpers' => Expect::arrayOf(
-				Expect::anyOf(Expect::string(), Expect::array(), Expect::type(Statement::class))
+				Expect::anyOf(Expect::string(), Expect::array(), Expect::type(Statement::class)),
 			),
 			'lazy' => Expect::bool(false),
 		])->castTo('array');
@@ -117,7 +117,7 @@ final class ConsoleExtension extends CompilerExtension
 				. "\t" . 'if (isset($_SERVER[\'NETTE_TESTER_RUNNER\']) === true) { return; }' . "\n"
 				. "\t" . 'new ' . Console::class . '($this->getByType(?), $this->getByType(?));' . "\n"
 				. '})();' . "\n",
-				[Application::class, \Nette\Application\Application::class]
+				[Application::class, \Nette\Application\Application::class],
 			);
 		}
 	}
