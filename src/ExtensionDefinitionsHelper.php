@@ -66,9 +66,8 @@ final class ExtensionDefinitionsHelper
 
 	/**
 	 * @param string|mixed[]|Statement $config
-	 * @return Definition|string
 	 */
-	public function getDefinitionFromConfig($config, string $preferredPrefix)
+	public function getDefinitionFromConfig(mixed $config, string $preferredPrefix): Definition|string
 	{
 		$builder = $this->compiler->getContainerBuilder();
 
@@ -96,9 +95,8 @@ final class ExtensionDefinitionsHelper
 	 * Check if config is valid callable or callable syntax which may result in valid callable at runtime and returns an definition otherwise
 	 *
 	 * @param string|mixed[]|Statement $config
-	 * @return mixed
 	 */
-	public function getCallableFromConfig($config, string $preferredPrefix)
+	public function getCallableFromConfig(mixed $config, string $preferredPrefix): mixed
 	{
 		if (is_callable($config)) {
 			return $config;
