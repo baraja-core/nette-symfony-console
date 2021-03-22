@@ -16,29 +16,44 @@ final class Helpers
 
 
 	/** Render code snippet to Terminal. */
-	public static function terminalRenderCode(string $path, ?int $markLine = null): void
-	{
+	public static function terminalRenderCode(
+		string $path,
+		?int $markLine = null,
+		int $lineContext = 8,
+		bool $colorize = true
+	): void {
 		if (PHP_SAPI !== 'cli') {
 			throw new \RuntimeException('Terminal: This method is available only in CLI mode.');
 		}
 		echo "\n" . $path . ($markLine === null ? '' : ' [on line ' . $markLine . ']') . "\n\n";
 		if (\is_file($path) === true) {
 			echo '----- file -----' . "\n";
-			$fileParser = explode("\n", str_replace(["\r\n", "\r"], "\n", (string) file_get_contents($path)));
+			$content = (string) file_get_contents($path);
+			if ($colorize === true) {
+				$content = (new ConsoleCodeHighlighter)->getWholeFile($content);
+			}
+			$fileParser = explode("\n", str_replace(["\r\n", "\r"], "\n", $content));
 
-			for ($i = ($start = $markLine > 8 ? $markLine - 8 : 0); $i <= $start + 15; $i++) {
+			$limit = $lineContext * 2 - 1;
+			for ($i = ($start = $markLine > $lineContext ? $markLine - $lineContext : 0); $i <= $start + $limit; $i++) {
 				if (isset($fileParser[$i]) === false) {
 					break;
 				}
 
 				$currentLine = $i + 1;
-				$highlight = $markLine === $currentLine;
-
-				echo($highlight ? "\e[1;37m\e[41m" : "\e[100m")
-					. str_pad(' ' . $currentLine . ': ', 6, ' ') . ($highlight ? '' : "\e[0m")
-					. str_replace("\t", '    ', $fileParser[$i])
-					. ($highlight ? "\e[0m" : '')
-					. "\n";
+				if ($markLine === $currentLine) { // highlight line
+					$windowSize = (int) getenv('COLUMNS');
+					echo "\e[1;37m\e[41m" . str_pad(' ' . $currentLine . ': ', 6, ' ');
+					$line = str_replace("\t", '    ', preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', $fileParser[$i]));
+					if ($windowSize > 10) {
+						echo str_pad($line, $windowSize > 500 ? 500 : $windowSize - 10, ' ');
+					}
+					echo "\e[0m\n";
+				} else {
+					echo "\e[100m" . str_pad(' ' . $currentLine . ': ', 6, ' ') . "\e[0m";
+					echo str_replace("\t", '    ', $fileParser[$i]);
+					echo "\n";
+				}
 			}
 
 			echo '----- file -----' . "\n\n";
