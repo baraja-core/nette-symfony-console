@@ -75,7 +75,7 @@ final class ConsoleCodeHighlighter
 
 
 	/**
-	 * @return string[][]
+	 * @return array<int, array<int, array<int, string>>>
 	 */
 	private function getHighlightedLines(string $code): array
 	{
@@ -163,7 +163,7 @@ final class ConsoleCodeHighlighter
 
 	/**
 	 * @param string[][] $tokens
-	 * @return string[][]
+	 * @return array<int, array<int, array<int, string>>>
 	 */
 	private function splitToLines(array $tokens): array
 	{
@@ -189,7 +189,7 @@ final class ConsoleCodeHighlighter
 
 
 	/**
-	 * @param string[][] $tokenLines
+	 * @param array<int, array<int, array<int, string>>> $tokenLines
 	 * @return string[]
 	 */
 	private function colorLines(array $tokenLines): array
@@ -218,7 +218,7 @@ final class ConsoleCodeHighlighter
 	private function lineNumbers(array $lines, ?int $markLine = null): string
 	{
 		end($lines);
-		$lineLength = strlen(key($lines) + 1);
+		$lineLength = strlen((string) (((int) key($lines)) + 1));
 
 		$snippet = '';
 		foreach ($lines as $i => $line) {
@@ -226,7 +226,7 @@ final class ConsoleCodeHighlighter
 				$snippet .= ($markLine === $i + 1 ? $this->color->apply(self::ACTUAL_LINE_MARK, '  > ') : '    ');
 			}
 
-			$snippet .= $this->color->apply(self::LINE_NUMBER, str_pad($i + 1, $lineLength, ' ', STR_PAD_LEFT) . '| ');
+			$snippet .= $this->color->apply(self::LINE_NUMBER, str_pad((string) ($i + 1), $lineLength, ' ', STR_PAD_LEFT) . '| ');
 			$snippet .= $line . PHP_EOL;
 		}
 

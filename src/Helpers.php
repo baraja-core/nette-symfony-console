@@ -44,7 +44,7 @@ final class Helpers
 				if ($markLine === $currentLine) { // highlight line
 					$windowSize = (int) getenv('COLUMNS');
 					echo "\e[1;37m\e[41m" . str_pad(' ' . $currentLine . ': ', 6, ' ');
-					$line = str_replace("\t", '    ', preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', $fileParser[$i]));
+					$line = str_replace("\t", '    ', (string) preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', $fileParser[$i]));
 					if ($windowSize > 10) {
 						echo str_pad($line, $windowSize > 500 ? 500 : $windowSize - 10, ' ');
 					}

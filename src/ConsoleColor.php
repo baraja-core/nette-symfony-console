@@ -65,6 +65,9 @@ final class ConsoleColor
 	private array $themes = [];
 
 
+	/**
+	 * @param string|string[] $style
+	 */
 	public function apply(string|array $style, string $text): string
 	{
 		if (!$this->isStyleForced() && !$this->isSupported()) {
@@ -106,6 +109,9 @@ final class ConsoleColor
 	}
 
 
+	/**
+	 * @param string|string[] $styles
+	 */
 	public function addTheme(string $name, string|array $styles): void
 	{
 		if (is_string($styles)) {
@@ -154,12 +160,12 @@ final class ConsoleColor
 	{
 		return DIRECTORY_SEPARATOR === '\\'
 			? function_exists('sapi_windows_vt100_support') && @sapi_windows_vt100_support(STDOUT)
-			: str_contains(getenv('TERM'), '256color');
+			: str_contains((string) getenv('TERM'), '256color');
 	}
 
 
 	/**
-	 * @return string[]
+	 * @return array<int, string|null>
 	 */
 	private function themeSequence(string $name): array
 	{
