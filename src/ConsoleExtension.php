@@ -68,7 +68,8 @@ final class ConsoleExtension extends CompilerExtension
 
 		// Register Symfony Console Application
 		$applicationDef = $builder->addDefinition($this->prefix('application'))
-			->setFactory(Application::class);
+			->setFactory(Application::class)
+			->setAutowired(Application::class);
 
 		if (($config['name'] ?? null) !== null) { // Setup console name
 			$applicationDef->addSetup('setName', [$config['name']]);
