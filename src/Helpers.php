@@ -47,6 +47,8 @@ final class Helpers
 					$line = str_replace("\t", '    ', (string) preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', $fileParser[$i]));
 					if ($windowSize > 10) {
 						echo str_pad($line, $windowSize > 500 ? 500 : $windowSize - 10, ' ');
+					} else {
+						echo $line;
 					}
 					echo "\e[0m\n";
 				} else {
