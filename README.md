@@ -1,5 +1,5 @@
-Baraja Console
-==============
+Simple integration of Symfony Console to Nette framework
+========================================================
 
 ![Integrity check](https://github.com/baraja-core/nette-symfony-console/workflows/Integrity%20check/badge.svg)
 
