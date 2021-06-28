@@ -47,16 +47,16 @@ console:
     name: My application
 ```
 
-| Field             | Type             | Description |
-|-------------------|------------------|-------------|
-| `url`             | string|null      | The default absolute URL of the project (for example, `https://baraja.cz`) to use for generating links.
-| `name`            | string           | Project name.
-| `version`         | string|int|float | Project version (must be a number or a numeric string).
-| `catchExceptions` | bool             | If Command throws an exception, should it be caught and logged?
-| `autoExit`        | bool             | Should the application be automatically terminated after processing Command?
-| `helperSet`       | string|object    | Helper Settings.
-| `helpers`         | string[]         | Registration of classes for helpers.
-| `lazy`            | bool             | Register the `CommandLoaderInterface` service and look for Commands only on the first attempt to call it.
+| Field             | Type               | Description |
+|-------------------|--------------------|-------------|
+| `url`             | `string|null`      | The default absolute URL of the project (for example, `https://baraja.cz`) to use for generating links.
+| `name`            | `string`           | Project name.
+| `version`         | `string|int|float` | Project version (must be a number or a numeric string).
+| `catchExceptions` | `bool`             | If Command throws an exception, should it be caught and logged?
+| `autoExit`        | `bool`             | Should the application be automatically terminated after processing Command?
+| `helperSet`       | `string|object`    | Helper Settings.
+| `helpers`         | `string[]`         | Registration of classes for helpers.
+| `lazy`            | `bool`             | Register the `CommandLoaderInterface` service and look for Commands only on the first attempt to call it.
 
 📄 License
 -----------
