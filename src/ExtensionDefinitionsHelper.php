@@ -12,7 +12,6 @@ use Nette\DI\Definitions\LocatorDefinition;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
 use Nette\DI\Resolver;
-use Nette\Utils\Strings;
 
 final class ExtensionDefinitionsHelper
 {
@@ -72,7 +71,7 @@ final class ExtensionDefinitionsHelper
 		$builder = $this->compiler->getContainerBuilder();
 
 		// Definition is defined in ServicesExtension, try to get it
-		if (is_string($config) && Strings::startsWith($config, '@')) {
+		if (is_string($config) && str_starts_with($config, '@')) {
 			$definitionName = substr($config, 1);
 
 			// Definition is already loaded (beforeCompile phase), return it
@@ -103,7 +102,7 @@ final class ExtensionDefinitionsHelper
 		}
 
 		// Might be valid callable at runtime
-		if (is_array($config) && is_callable($config, true) && Strings::startsWith($config[0], '@')) {
+		if (is_array($config) && is_callable($config, true) && str_starts_with($config[0], '@')) {
 			return $config;
 		}
 
