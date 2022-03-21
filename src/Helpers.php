@@ -20,7 +20,7 @@ final class Helpers
 		string $path,
 		?int $markLine = null,
 		int $lineContext = 8,
-		bool $colorize = true
+		bool $colorize = true,
 	): void {
 		if (PHP_SAPI !== 'cli') {
 			throw new \RuntimeException('Terminal: This method is available only in CLI mode.');
