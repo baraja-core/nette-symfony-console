@@ -87,16 +87,16 @@ final class ConsoleCodeHighlighter
 
 
 	/**
-	 * @return string[][]
+	 * @return array<int, array{0: string, 1: string}>
 	 */
 	private function tokenize(string $code): array
 	{
 		$tokens = token_get_all($code);
 
-		$output = [];
 		$currentType = null;
 		$buffer = '';
 
+		$output = [];
 		foreach ($tokens as $token) {
 			$newType = '';
 			if (is_array($token)) {
@@ -162,7 +162,7 @@ final class ConsoleCodeHighlighter
 
 
 	/**
-	 * @param string[][] $tokens
+	 * @param array<int, array{0: string, 1: string}> $tokens
 	 * @return array<int, array<int, array<int, string>>>
 	 */
 	private function splitToLines(array $tokens): array
@@ -190,7 +190,7 @@ final class ConsoleCodeHighlighter
 
 	/**
 	 * @param array<int, array<int, array<int, string>>> $tokenLines
-	 * @return string[]
+	 * @return array<int, string>
 	 */
 	private function colorLines(array $tokenLines): array
 	{
@@ -213,7 +213,7 @@ final class ConsoleCodeHighlighter
 
 
 	/**
-	 * @param string[] $lines
+	 * @param array<int, string> $lines
 	 */
 	private function lineNumbers(array $lines, ?int $markLine = null): string
 	{

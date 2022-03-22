@@ -30,7 +30,7 @@ final class Console
 	 * The search must be performed at runtime to detect any commands
 	 * that insert any extensions or other services.
 	 *
-	 * @return Command[]
+	 * @return array<int, Command>
 	 */
 	public static function registerCommands(Container $container): array
 	{
@@ -65,25 +65,25 @@ final class Console
 			echo "\n" . 'Exit with code #' . $runCode;
 			exit($runCode);
 		} catch (\Throwable $e) {
-			if (\class_exists(Debugger::class) === true) {
+			if (class_exists(Debugger::class) === true) {
 				Debugger::log($e, 'critical');
 			}
-			if (\is_file($logPath = \dirname(__DIR__, 4) . '/log/exception.log') === true) {
+			$logPath = dirname(__DIR__, 4) . '/log/exception.log';
+			if (is_file($logPath) === true) {
 				$data = file($logPath);
-				$logLine = trim((string) ($data === false ? '???' : $data[\count($data) - 1] ?? '???'));
+				$logLine = trim($data === false ? '???' : $data[count($data) - 1] ?? '???');
 
-				if (preg_match('/((?:debug|info|warning|error|exception|critical)--[\d-]+--[a-f\d]+\.html)/', $logLine, $logLineParser)) {
+				if (preg_match('/((?:debug|info|warning|error|exception|critical)--[\d-]+--[a-f\d]+\.html)/', $logLine, $logLineParser) === 1) {
 					Helpers::terminalRenderError('Logged to file: ' . $logLineParser[1]);
 				}
-
 				Helpers::terminalRenderError($logLine);
-				Helpers::terminalRenderCode($e->getFile(), $e->getLine());
 			} else {
 				Helpers::terminalRenderError($e->getMessage());
-				Helpers::terminalRenderCode($e->getFile(), $e->getLine());
 			}
+			Helpers::terminalRenderCode($e->getFile(), $e->getLine());
 
-			echo "\n" . 'Exit with code #' . ($exitCode = $e->getCode() ?: 1);
+			$exitCode = $e->getCode();
+			echo "\n" . 'Exit with code #' . $exitCode;
 			exit($exitCode);
 		}
 	}
@@ -94,7 +94,7 @@ final class Console
 		foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $item) {
 			if (
 				isset($item['file'])
-				&& substr(str_replace('\\', '/', $item['file']), -31) === 'symfony/console/Application.php'
+				&& str_ends_with(str_replace('\\', '/', $item['file']), 'symfony/console/Application.php')
 			) {
 				return true;
 			}

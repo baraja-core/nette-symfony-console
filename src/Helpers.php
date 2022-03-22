@@ -35,7 +35,7 @@ final class Helpers
 			$fileParser = explode("\n", str_replace(["\r\n", "\r"], "\n", $content));
 
 			$limit = $lineContext * 2 - 1;
-			for ($i = ($start = $markLine > $lineContext ? $markLine - $lineContext : 0); $i <= $start + $limit; $i++) {
+			for ($i = ($start = $markLine > $lineContext ? ($markLine ?? 0) - $lineContext : 0); $i <= $start + $limit; $i++) {
 				if (isset($fileParser[$i]) === false) {
 					break;
 				}

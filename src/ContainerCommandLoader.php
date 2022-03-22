@@ -14,11 +14,11 @@ final class ContainerCommandLoader implements CommandLoaderInterface
 {
 	private Container $container;
 
-	/** @var string[] */
+	/** @var array<string, string> */
 	private array $commandMap;
 
 
-	/** @param string[] $commandMap */
+	/** @param array<string, string> $commandMap */
 	public function __construct(Container $container, array $commandMap)
 	{
 		$this->container = $container;

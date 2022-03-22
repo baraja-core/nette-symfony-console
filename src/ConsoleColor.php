@@ -66,7 +66,7 @@ final class ConsoleColor
 
 
 	/**
-	 * @param string|string[] $style
+	 * @param string|array<int, string> $style
 	 */
 	public function apply(string|array $style, string $text): string
 	{
@@ -84,12 +84,12 @@ final class ConsoleColor
 			} elseif ($this->isValidStyle($s)) {
 				$sequences[] = $this->styleSequence($s);
 			} else {
-				throw new \InvalidArgumentException('Invalid style ' . $s);
+				throw new \InvalidArgumentException(sprintf('Invalid style "%s".', $s));
 			}
 		}
 
 		$sequences = array_filter($sequences, static fn(mixed $val): bool => $val !== null);
-		if (empty($sequences)) {
+		if ($sequences === []) {
 			return $text;
 		}
 
@@ -187,7 +187,7 @@ final class ConsoleColor
 			return null;
 		}
 
-		if (preg_match(self::COLOR256_REGEXP, $style, $matches)) {
+		if (preg_match(self::COLOR256_REGEXP, $style, $matches) === 1) {
 			$type = $matches[1] === 'bg_' ? self::BACKGROUND : self::FOREGROUND;
 			$value = $matches[2];
 
@@ -200,7 +200,7 @@ final class ConsoleColor
 
 	private function isValidStyle(string $style): bool
 	{
-		return array_key_exists($style, $this->styles) || preg_match(self::COLOR256_REGEXP, $style);
+		return array_key_exists($style, $this->styles) || preg_match(self::COLOR256_REGEXP, $style) === 1;
 	}
 
 

@@ -62,7 +62,17 @@ final class ConsoleExtension extends CompilerExtension
 		}
 
 		$builder = $this->getContainerBuilder();
-		/** @var mixed[] $config */
+		/** @var array{
+		 *     url?: string,
+		 *     name?: string,
+		 *     version?: string,
+		 *     catchExceptions?: bool,
+		 *     autoExit?: bool,
+		 *     helperSet?: string|mixed,
+		 *     helpers?: array<string, mixed>,
+		 *     lazy?: bool
+		 * } $config
+		 */
 		$config = $this->getConfig();
 		$definitionHelper = new ExtensionDefinitionsHelper($this->compiler);
 
@@ -111,15 +121,16 @@ final class ConsoleExtension extends CompilerExtension
 
 	public function afterCompile(ClassType $class): void
 	{
-		if (PHP_SAPI === 'cli') {
-			$class->getMethod('initialize')->addBody(
-				'// Console.' . "\n"
-				. '(function () {' . "\n"
-				. "\t" . 'if (isset($_SERVER[\'NETTE_TESTER_RUNNER\']) === true) { return; }' . "\n"
-				. "\t" . 'new ' . Console::class . '($this->getByType(?), $this->getByType(?));' . "\n"
-				. '})();' . "\n",
-				[Application::class, \Nette\Application\Application::class],
-			);
+		if (PHP_SAPI !== 'cli') {
+			return;
 		}
+		$class->getMethod('initialize')->addBody(
+			'// Console.' . "\n"
+			. '(function () {' . "\n"
+			. "\t" . 'if (isset($_SERVER[\'NETTE_TESTER_RUNNER\']) === true) { return; }' . "\n"
+			. "\t" . 'new ' . Console::class . '($this->getByType(?), $this->getByType(?));' . "\n"
+			. '})();' . "\n",
+			[Application::class, \Nette\Application\Application::class],
+		);
 	}
 }
