@@ -81,19 +81,19 @@ final class ConsoleExtension extends CompilerExtension
 			->setFactory(Application::class)
 			->setAutowired(Application::class);
 
-		if (($config['name'] ?? null) !== null) { // Setup console name
+		if (isset($config['name'])) { // Setup console name
 			$applicationDef->addSetup('setName', [$config['name']]);
 		}
-		if (($config['version'] ?? null) !== null) { // Setup console version
-			$applicationDef->addSetup('setVersion', [(string) $config['version']]);
+		if (isset($config['version'])) { // Setup console version
+			$applicationDef->addSetup('setVersion', [$config['version']]);
 		}
-		if (($config['catchExceptions'] ?? null) !== null) { // Catch or populate exceptions
+		if (isset($config['catchExceptions'])) { // Catch or populate exceptions
 			$applicationDef->addSetup('setCatchExceptions', [$config['catchExceptions']]);
 		}
-		if (($config['autoExit'] ?? null) !== null) { // Call die() or not
+		if (isset($config['autoExit'])) { // Call die() or not
 			$applicationDef->addSetup('setAutoExit', [$config['autoExit']]);
 		}
-		if (($config['helperSet'] ?? null) !== null) { // Register given or default HelperSet
+		if (isset($config['helperSet'])) { // Register given or default HelperSet
 			$applicationDef->addSetup('setHelperSet', [
 				$definitionHelper->getDefinitionFromConfig($config['helperSet'], $this->prefix('helperSet')),
 			]);
